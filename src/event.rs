@@ -1,0 +1,95 @@
+pub enum EventState {
+    Old,
+    New,
+}
+
+pub enum EventType {
+    Normal,
+    End,
+    BossEnd,
+}
+
+pub enum EventAnimationType {
+    Top,
+    Right,
+    RightEnd,
+    Bot,
+    Left,
+    BotRightEnd,
+    EndBot1,
+    EndBot2,
+    EndPoints,
+    DeathNothing,
+    DeathTop,
+    DeathBot,
+    Nothing,
+    PlayPipeRight,
+    PlayPipeTop,
+    LoadingMenu,
+    GameOver,
+    BossEnd1,
+    BossEnd2,
+    BossEnd3,
+    BossEnd4,
+    BotRightBoss,
+    BossText1,
+    BossText2,
+    EndGameBossText1,
+    EndGameBossText2,
+    MarioSprite1,
+    Vine1,
+    Vine2,
+    VineSpawn,
+}
+
+pub(crate) struct Event {
+    state: EventState,
+    step_id: u32,
+    old_dir: Vec<EventAnimationType>,
+    old_length: Vec<i32>,
+    new_dir: Vec<EventAnimationType>,
+    new_length: Vec<i32>,
+    redraw_x: Vec<i32>,
+    redraw_y: Vec<i32>,
+    event_type_id: EventType,
+    speed: i32,
+    new_level_type: i32,
+    new_map_x_pos: i32,
+    new_player_x_pos: i32,
+    new_player_y_pos: i32,
+    new_move_map: bool,
+    time: u32,
+    delay: i32,
+    new_current_level: i32,
+    in_event: bool,
+    new_underwater: bool,
+    end_game: bool,
+}
+
+impl Event {
+    pub fn new() -> Event {
+        Event {
+            state: EventState::Old,
+            step_id: 0,
+            old_dir: Vec::new(),
+            old_length: Vec::new(),
+            new_dir: Vec::new(),
+            new_length: Vec::new(),
+            redraw_x: Vec::new(),
+            redraw_y: Vec::new(),
+            event_type_id: EventType::Normal,
+            speed: 0,
+            new_level_type: 0,
+            new_map_x_pos: 0,
+            new_player_x_pos: 0,
+            new_player_y_pos: 0,
+            new_move_map: false,
+            time: 0,
+            delay: 0,
+            new_current_level: 0,
+            in_event: false,
+            new_underwater: false,
+            end_game: false,
+        }
+    }
+}
