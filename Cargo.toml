@@ -1,0 +1,11 @@
+[package]
+name = "super-mario"
+description = "Rewrite super mario in Rust, inspired by uMario_Jakowski"
+authors = ["JasonZhang"]
+version = "0.1.0"
+edition = "2024"
+keywords = ["super mario", "game", "sdl2"]
+categories = ["games"]
+
+[dependencies]
+sdl2 = { version = "0.37.0", features = ["image", "mixer", "ttf"] }
