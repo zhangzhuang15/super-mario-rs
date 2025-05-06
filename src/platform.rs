@@ -21,12 +21,12 @@ pub(crate) struct Platform {
     y_start: i32,
     y_end: i32,
 
-    x_pos: f32,
-    y_pos: f32,
+    pub x_pos: f32,
+    pub y_pos: f32,
 
     direction: PlatformDirection,
 
-    size: i32,
+    pub size: i32,
     on: bool,
 
     seesaw_platform_id: i32,

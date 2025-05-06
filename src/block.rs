@@ -1,19 +1,19 @@
 use crate::map::Map;
 use crate::sprite::Sprite;
 use sdl2::sys::SDL_Renderer;
+use std::sync::Arc;
 
-pub(crate) struct Block<'a> {
+pub(crate) struct Block {
     block_id: i32,
     collision: bool,
     death: bool,
     using: bool,
     visible: bool,
-    sprite: Box<Sprite>,
-    map: &'a mut Map<'a>,
+    pub sprite: Box<Sprite>,
 }
 
-impl<'a> Block<'a> {
-    pub fn new(map: &'a mut Map<'a>) -> Block<'a> {
+impl Block {
+    pub fn new() -> Block {
         Block {
             block_id: 0,
             collision: false,
@@ -21,7 +21,6 @@ impl<'a> Block<'a> {
             using: false,
             visible: true,
             sprite: Box::new(Sprite::new()),
-            map,
         }
     }
 

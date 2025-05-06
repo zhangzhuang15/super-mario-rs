@@ -1,4 +1,6 @@
+use crate::map::Map;
 use sdl2::sys::SDL_Renderer;
+use std::sync::{Arc, Mutex};
 
 use crate::cfg::GAME_HEIGHT;
 
@@ -7,7 +9,7 @@ pub enum DebrisState {
     Delete,
 }
 
-pub struct Position(i32, i32);
+pub struct Position(pub i32, pub i32);
 
 pub(crate) struct BlockDebris {
     debris_state: DebrisState,
@@ -108,5 +110,49 @@ impl BlockDebris {
         }
     }
 
-    pub fn draw(&mut self, render: *mut SDL_Renderer) {}
+    pub fn draw(&mut self, map: &mut Map, render: *mut SDL_Renderer) {
+        let arc_map = map;
+        let id = {
+            let current_type = arc_map.current_level_type();
+            if current_type == 0 || current_type == 4 {
+                64
+            } else if current_type == 1 {
+                65
+            } else {
+                66
+            }
+        };
+        let x_pos = arc_map.x_pos;
+
+        let block = arc_map.get_block_mut(id);
+        let texture = block.sprite.get_current_texture();
+
+        texture.draw(
+            render,
+            self.position_l.0 + x_pos as i32,
+            self.position_l.1,
+            self.rotate,
+        );
+
+        texture.draw(
+            render,
+            self.position_r.0 + x_pos as i32,
+            self.position_r.1,
+            self.rotate,
+        );
+
+        texture.draw(
+            render,
+            self.position_l2.0 + x_pos as i32,
+            self.position_l2.1,
+            self.rotate,
+        );
+
+        texture.draw(
+            render,
+            self.position_r2.0 + x_pos as i32,
+            self.position_r2.1,
+            self.rotate,
+        );
+    }
 }

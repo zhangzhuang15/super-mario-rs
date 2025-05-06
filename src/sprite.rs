@@ -25,7 +25,7 @@ impl Sprite {
     }
 
     pub fn from(
-        render: &mut SDL_Renderer,
+        render: *mut SDL_Renderer,
         sprite: Vec<String>,
         delay: Vec<u32>,
         rotate: bool,

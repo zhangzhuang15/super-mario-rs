@@ -2,6 +2,7 @@ use crate::map::Map;
 use sdl2::sys::SDL_Event;
 use sdl2::sys::SDL_Renderer;
 use sdl2::sys::SDL_Window;
+use std::sync::{Arc, Mutex};
 
 const MIN_FRAME_TIME: i32 = 16;
 
@@ -23,9 +24,11 @@ static mut MOUSE_Y: i32 = 0;
 pub enum Direction {
     Left,
     Right,
+    Top,
+    Bottom,
 }
 
-pub(crate) struct Core<'a> {
+pub(crate) struct Core {
     pub window: SDL_Window,
     pub renderer: SDL_Renderer,
     pub main_event: SDL_Event,
@@ -34,5 +37,5 @@ pub(crate) struct Core<'a> {
     pub inum_of_fps: i32,
     pub ifps: i32,
     pub first_dir: Direction,
-    pub o_map: Map<'a>,
+    pub o_map: Arc<Mutex<Map>>,
 }
