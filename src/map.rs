@@ -97,6 +97,10 @@ impl Map {
         map
     }
 
+    pub fn get_list_id(&self, x: i32) -> i32 {
+        x / 160
+    }
+
     pub fn get_block(&self, id: i32) -> &Block {
         &self.block[id as usize]
     }
@@ -199,5 +203,28 @@ impl Map {
         return -1;
     }
 
+    pub fn get_map_block(&self, x: i32, y: i32) -> &MapLevel {
+        &self.map_of_level[x as usize][y as usize]
+    }
+
     pub fn player_death(&self, animation: bool, instant_death: bool) {}
+
+    pub fn block_use(&self, x: i32, y: i32, block_id: i32, pos: i32) {
+        let level_map = &self.map_of_level[x as usize][y as usize];
+        if pos == 0 {
+            match block_id {
+                8 | 55 => {
+                    if level_map.spawn_mushroom {
+                        if self.player.power_lvl == 0 {
+                            self.minion[self.get_list_id(32 * x) as usize].push(value);
+                        }
+                    }
+                }
+                13 | 28 | 81 => {}
+                24 => {}
+                128 | 129 => {}
+                _ => {}
+            }
+        }
+    }
 }

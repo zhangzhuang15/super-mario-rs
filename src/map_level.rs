@@ -3,7 +3,7 @@ use crate::core::Direction;
 pub(crate) struct MapLevel {
     pub block_id: i32,
 
-    spawn_mushroom: bool,
+    pub spawn_mushroom: bool,
     power_up: bool, // -- true = powerUP, false = 1UP
     spawn_star: bool,
     num_of_use: i32,

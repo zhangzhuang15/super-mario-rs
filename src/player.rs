@@ -3,6 +3,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::{Arc, Mutex};
 
+use crate::block_debris::Position;
 use crate::cfg::GAME_HEIGHT;
 use crate::cimg::CIMG;
 use crate::core::Direction;
@@ -40,7 +41,7 @@ pub(crate) struct Player {
     combo_points: i32,
     frame_id: i32,
 
-    power_lvl: i32,
+    pub power_lvl: i32,
 
     in_level_animation: bool,
     in_level_animation_type: bool, // -- true = UP, false = DOWN
@@ -685,6 +686,24 @@ impl Player {
         if self.power_lvl == 0 { SMALL_X } else { BIG_X }
     }
 
+    pub fn get_block_rt(&self, map: &Map, x: f32, y: f32) -> Position {
+        map.get_block_id(x as i32 + self.hit_box_x() - 1, y as i32)
+    }
+
+    pub fn check_collision_bot(&self, map: &mut Map, x: i32, y: i32) {
+        let position = self.get_block_rt(
+            map,
+            self.x_pos - map.x_pos + x as f32,
+            self.y_pos + y as f32,
+        );
+        let map_level = map.get_map_block(position.0, position.1);
+        let block = map.get_block(map_level.block_id);
+
+        if block.is_using() {}
+    }
+
+    pub fn update_x_pos(&mut self, map: &mut Map, v: i32) {}
+
     pub fn update_y_pos(&mut self, map: &mut Map, v: i32) {
         enum Status {
             NoChild,
@@ -790,7 +809,31 @@ impl Player {
                         } else if !left && !right {
                             self.y_pos += *val as f32;
                         } else {
-                            if self.jump_state == 1 {}
+                            if self.jump_state == 1 {
+                                if !left && right {
+                                    //
+                                    let x = self.x_pos - arc_map.x_pos;
+                                    let y = self.y_pos + *val as f32;
+                                    let position = self.get_block_rt(arc_map, x, y);
+
+                                    let block_id =
+                                        arc_map.get_map_block(position.0, position.1).block_id;
+                                    let block = arc_map.get_block(block_id);
+                                    if !block.is_visible() {
+                                    } else if ((self.x_pos + self.hit_box_x() as f32
+                                        - arc_map.x_pos)
+                                        as i32)
+                                        % 32
+                                        <= 8
+                                    {
+                                        //
+                                    } else if block.is_using() {
+                                        //
+                                    } else {
+                                        self.jump_state = 2;
+                                    }
+                                }
+                            }
                         }
                     }
 
