@@ -1,10 +1,13 @@
-pub struct GameManager {
+use std::collections::HashMap;
+
+pub struct GameManager<'a> {
     canvas: sdl2::render::Canvas<sdl2::video::Window>,
     event_pump: sdl2::EventPump,
     context: sdl2::Sdl,
+    texture_table: HashMap<&'static str, super::texture_context::TextureContext<'a>>,
 }
 
-impl GameManager {
+impl<'a> GameManager<'a> {
     pub fn new(title: &str, width: u32, height: u32) -> GameManager {
         let context = sdl2::init().expect("fail to create sdl context");
         let video_system = context.video().expect("fail to create sdl video system");
@@ -26,6 +29,7 @@ impl GameManager {
             canvas,
             event_pump,
             context,
+            texture_table: HashMap::new(),
         }
     }
 }
