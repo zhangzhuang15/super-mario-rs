@@ -4,6 +4,7 @@ mod core;
 mod game_manager;
 mod main_menu;
 mod map;
+mod music_manager;
 mod player;
 mod sprite;
 mod texture_context;
